@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="SemiColonWeb" />
+    <!-- Stylesheets
+	============================================= -->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/style.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/dark.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/font-icons.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/responsive.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDNJOYAnrIhA969TXbbtgMz1khfHrEmtmE",
+            authDomain: "ebooks-6202b.firebaseapp.com",
+            databaseURL: "https://ebooks-6202b.firebaseio.com",
+            projectId: "ebooks-6202b",
+            storageBucket: "ebooks-6202b.appspot.com",
+            messagingSenderId: "388247049805"
+          };
+        firebase.initializeApp(config);
+        var uid;
+        var button;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                if (!user) {
+                    window.location = "/login_register.html";
+                    
+                }
+            }
+            else{               
+               uid = user.uid;     
+               var userDataRef = firebase.database().ref("users/"+uid+"/requests").orderByKey();
+               userDataRef.once("value").then(function (snapshot) {
+               snapshot.forEach(function (childSnapshot) {               
+                        console.log(childSnapshot.val());
+                        var bookID = childSnapshot.val().bookID;
+                        var st = childSnapshot.val().status;                        
+                        var bookRef = firebase.database().ref("items/"+bookID).orderByKey();
+                        bookRef.once("value").then(function (book) {
+                        console.log(book.val());
+                        var title = book.val().title;
+                        var author = book.val().author;
+                        var type = book.val().type;
+                        var category = book.val().category;
+                        var img = book.val().img_src;
+                        if(st == "Pending"){
+                          button = '<button class=button button-3d button-black nomargin" id="update-data" name="update-data" ">Approval Pending</button>';
+                        }
+                        else{
+                        button = '<button data-toggle="modal" data-target="#myModal1" class=button button-3d button-black nomargin" id="update-data" name="update-data" onclick="issue('+"'"+bookID+"'"+')">Download</button>';
+                        }
+                        $("#data").append("<tr id='"+key+"'><td>" + c++ + "</td><td><img src='"+img+"' height='20%' ></td><td>" + title + "</td><td>" + author + "</td><td>" + category + "</td><td>" + button + "</td></tr>");
+                        });                        
+                        
+            });
+        });
+            }
+        });        
+        var c = 1;
+        var key;        
+        
+        function issue(n){
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                if (!user) {
+                    window.location = "/login_register.html";
+                    
+                }
+            }
+            else{               
+               var bookRef = firebase.database().ref("items/"+n).orderByKey();
+                   bookRef.once("value").then(function (book) {
+                           book.val().links.forEach(function(link){
+                           console.log(link);
+                           $("#download_modal").append("<li> <a href='"+link+"'>"+link+"</a>");
+                           });
+                           
+                   });
+            }
+        });
+        }
+    </script>
+    <script>
+        function myFunction() {
+          // Declare variables 
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+        
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            } 
+          }
+        }
+        </script>
+    <style>
+    #myInput {
+            background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+        </style>
+    <!-- Document Title
+	============================================= -->
+    <title>Book List</title>
+</head>
+
+<body class="stretched">
+    <!-- Document Wrapper
+	============================================= -->
+    <div id="wrapper" class="clearfix">
+        <!-- Header
+		============================================= -->
+        <header id="header" class="transparent-header full-header" data-sticky-class="not-dark">
+            <div id="header-wrap">
+                <div class="container clearfix">
+                    <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+                    <!-- Logo
+					============================================= -->
+                    <div id="logo">
+                        <a href="index.html" class="standard-logo" data-dark-logo="company_logo.png"><img src="company_logo.png" alt="Othello"></a>
+                        <a href="index.html" class="retina-logo" data-dark-logo="company_logo.png"><img src="company_logo.png" alt="Othello"></a>
+                    </div>
+                    <!-- #logo end -->
+                    <!-- Primary Navigation
+					============================================= -->
+                    <nav id="primary-menu">
+                    <ul>
+                            <li class="current">
+                                <a href="login_register.html">
+                                    <div>Login/Register</div>
+                                </a>
+                            </li>
+                    </ul>
+                    </nav>
+                    
+                    <!-- #primary-menu end -->
+                </div>
+            </div>
+        </header>
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+                
+                
+                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for books..">
+                    <div class="table-responsive">
+                        <h4>Books</h4>
+                        <table class="table table-bordered" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cover</th>
+                                    <th>Book Name</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="data"> </tbody>
+                        </table>
+                    </div>
+                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-body">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Download Links</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul id="download_modal">
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default button button-border button-rounded"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- #content end -->
+        <!-- Footer
+		============================================= -->
+        <footer id="footer" class="dark">
+            <!-- Copyrights
+			============================================= -->
+            <div id="copyrights">
+                <div class="container clearfix">
+                    <div class="col_half">
+                        <div class="copyright-links">Website Developed By &nbsp;<a href="https://www.facebook.com/pabs.sen1">Debaditya Sen</a></div> Copyrights Â© 2018 All Rights Reserved by Othello. </div>
+                    <div class="col_half col_last tright">
+                        <div class="fright clearfix">
+                            <a href="#" class="social-icon si-small si-borderless si-facebook"> <i class="icon-facebook"></i> <i class="icon-facebook"></i> </a>
+                            <a href="#" class="social-icon si-small si-borderless si-gplus"> <i class="icon-gplus"></i> <i class="icon-gplus"></i> </a>
+                            <a href="#" class="social-icon si-small si-borderless si-email3"> <i class="icon-email3"></i> <i class="icon-email3"></i> </a>
+                        </div>
+                        <div class="clear"></div> <i class="icon-envelope2"></i> # <span class="middot">Â·</span> <i class="icon-headphones"></i> # </div>
+                </div>
+            </div>
+        </footer>
+        <!-- #footer end -->
+    </div>
+    <!-- #wrapper end -->
+    <!-- Go To Top
+	============================================= -->
+    <div id="gotoTop" class="icon-angle-up"></div>
+    <!-- External JavaScripts
+	============================================= -->
+    <script type="text/javascript" src="https://globalparliament.in/js/jquery.js"></script>
+    <script type="text/javascript" src="https://globalparliament.in/js/plugins.js"></script>
+    <!-- Footer Scripts
+	============================================= -->
+    <script type="text/javascript" src="https://globalparliament.in/js/functions.js"></script>
+</body>
+
+</html>

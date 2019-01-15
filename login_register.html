@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="DBL Tech Team" />
+
+    
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="theme-color" content="#ffffff">
+        
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.3.0/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/4.3.1/firebase.js"></script>
+    
+    <script type="text/javascript">
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDNJOYAnrIhA969TXbbtgMz1khfHrEmtmE",
+            authDomain: "ebooks-6202b.firebaseapp.com",
+            databaseURL: "https://ebooks-6202b.firebaseio.com",
+            projectId: "ebooks-6202b",
+            storageBucket: "ebooks-6202b.appspot.com",
+            messagingSenderId: "388247049805"
+          };
+        firebase.initializeApp(config); 
+        firebase.auth().useDeviceLanguage();
+        // FirebaseUI config.
+        var uiConfig = {
+            signInSuccessUrl: '/index.html',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
+            ]
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#panel-body', uiConfig);
+
+    </script>
+
+
+    <!-- Stylesheets
+	============================================= -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Document Title
+	============================================= -->
+    <title>Login</title>
+
+</head>
+
+<body class="stretched">
+
+    <!-- Document Wrapper
+	============================================= -->
+    <div id="wrapper" class="clearfix">
+
+        <!-- Content
+		============================================= -->
+        <section id="content">
+
+            <div class="content-wrap nopadding">
+
+                <div class="section nopadding nomargin" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: #444;"></div>
+
+                <div class="section nobg full-screen nopadding nomargin">
+                    <div class="container vertical-middle divcenter">
+
+                        <div class="row center">
+                            <a href="index.html"><img src="images/company_logo.png" alt=""></a>
+                        </div>
+
+                        <div id="panel-body" class="panel-body">
+                        </div>
+
+                        <div class="row center dark"><small>Copyrights &copy; All Rights Reserved by Otlelo.</small></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+        <!-- #content end -->
+
+    </div>
+    <!-- #wrapper end -->
+
+    <!-- Go To Top
+	============================================= -->
+    <div id="gotoTop" class="icon-angle-up"></div>
+
+    <!-- External JavaScripts
+	============================================= -->
+    <script type="text/javascript" src="https://globalparliament.in/js/jquery.js"></script>
+    <script type="text/javascript" src="https://globalparliament.in/js/plugins.js"></script>
+
+    <!-- Footer Scripts
+	============================================= -->
+    <script type="text/javascript" src="https://globalparliament.in/js/functions.js"></script>
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/style.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/dark.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/font-icons.css" type="text/css" />
+    <link rel="stylesheet" href="https://globalparliament.in/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+
+    <link rel="stylesheet" href="https://globalparliament.in/css/responsive.css" type="text/css" />
+
+</body>
+
+</html>
